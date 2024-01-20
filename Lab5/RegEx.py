@@ -23,9 +23,7 @@ print(re.sub("[ ,.]", ":", string))
 print(re.sub("_", " ", string).title().replace(" ", ""))
 
 # 8
-print(re.findall("[A-Z][^A-Z]*", string))
-or
-print(re.split("[A-Z]+", string))
+print(re.split("[A-Z]", string))
 
 # 9
 lst = re.findall("[A-Z][^A-Z]*", string)
