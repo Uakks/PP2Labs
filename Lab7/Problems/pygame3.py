@@ -27,12 +27,12 @@ while not done:
                 y = screen.get_height()-radius
 
         if event.type == pygame.KEYDOWN and event.key == pygame.K_LEFT:
-            x -= 2
+            x -= 20
             if x < radius:
                 x = radius
 
         if event.type == pygame.KEYDOWN and event.key == pygame.K_RIGHT:
-            x += 2
+            x += 20
             if x > screen.get_width()-radius:
                 x = screen.get_width()-radius
 
