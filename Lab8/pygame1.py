@@ -33,6 +33,7 @@ font = pygame.font.SysFont("Verdana", 60)
 font_small = pygame.font.SysFont("Verdana", 20)
 game_over = font.render("Game Over", True, BLACK)
 
+# background image
 back = pygame.image.load("/Users/uakks/Desktop/screenshots/Road_back.png")
 background = pygame.transform.scale(back, (SCREEN_WIDTH, SCREEN_HEIGHT))
 
@@ -42,6 +43,7 @@ DISPLAYSURF.fill(WHITE)
 pygame.display.set_caption("Game")
 
 
+# Classes
 class Enemy(pygame.sprite.Sprite):
     def __init__(self):
         super().__init__()
@@ -98,8 +100,6 @@ class Coins(pygame.sprite.Sprite):
             self.rect.center = (random.randint(50, SCREEN_WIDTH - 50), 0)
 
 
-random_timing = random.randint(0, 10)
-
 # Setting up Sprites
 P1 = Player()
 E1 = Enemy()
@@ -111,6 +111,7 @@ game_coins.add(C1)
 enemies = pygame.sprite.Group()
 enemies.add(E1)
 all_sprites = pygame.sprite.Group()
+all_sprites.add(C1)
 all_sprites.add(P1)
 all_sprites.add(E1)
 
@@ -120,8 +121,9 @@ pygame.time.set_timer(INC_SPEED, 1000)
 
 # Just background music
 pygame.mixer.music.load("/Users/uakks/Desktop/Better Day.mp3")
-pygame.mixer.music.set_volume(0.5)
+pygame.mixer.music.set_volume(1)
 pygame.mixer.music.play(-1)
+
 # Game Loop
 while True:
 
@@ -138,17 +140,14 @@ while True:
     scores = font_small.render(str(SCORE), True, BLACK)
     DISPLAYSURF.blit(scores, (10, 10))
     coins = font_small.render(str(COINS), True, YELLOW)
-    DISPLAYSURF.blit(coins, (10, 40))
+    DISPLAYSURF.blit(coins, (SCREEN_WIDTH-30, 10))
 
     # Moves and Re-draws all Sprites
     for entity in all_sprites:
         DISPLAYSURF.blit(entity.image, entity.rect)
         entity.move()
 
-    for entity in game_coins:
-        DISPLAYSURF.blit(entity.image, entity.rect)
-        entity.move()
-
+    # Colliding with coins
     if pygame.sprite.spritecollideany(P1, game_coins):
         pygame.mixer.Sound('/Users/uakks/Desktop/Coin Touch.wav').play()
         COINS += 1
@@ -176,5 +175,6 @@ while True:
         pygame.quit()
         sys.exit()
 
+    # Update screen
     pygame.display.update()
     FramePerSec.tick(FPS)
