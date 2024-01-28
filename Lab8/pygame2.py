@@ -3,7 +3,7 @@ import sys
 import random
 from pygame.math import Vector2
 
-pygame.display.set_caption("Snake")
+pygame.display.set_caption("Snake game")
 
 
 class Snake:
@@ -241,9 +241,6 @@ cell_number = 30
 cell_size = 25
 screen = pygame.display.set_mode((cell_size * cell_number, cell_size * cell_number))
 clock = pygame.time.Clock()
-
-# still need to work with it
-DIFFICULTY = 0
 
 sounds = [
     "/Users/uakks/Desktop/Crunch Sound.mp3",
