@@ -40,7 +40,7 @@ background = pygame.transform.scale(back, (SCREEN_WIDTH, SCREEN_HEIGHT))
 # Create a white screen
 DISPLAYSURF = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 DISPLAYSURF.fill(WHITE)
-pygame.display.set_caption("Game")
+pygame.display.set_caption("Race")
 
 
 # Classes
