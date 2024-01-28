@@ -2,6 +2,7 @@
 import random
 import time
 
+import numpy
 import pygame
 import sys
 from pygame.locals import *
@@ -24,7 +25,7 @@ YELLOW = (255, 255, 0)
 # Other Variables for use in the program
 SCREEN_WIDTH = 1200
 SCREEN_HEIGHT = 800
-SPEED = 5
+SPEED = 25
 SCORE = 0
 COINS = 0
 
@@ -51,11 +52,19 @@ class Enemy(pygame.sprite.Sprite):
         self.image = pygame.transform.scale(image, (80, 177))
         self.rect = self.image.get_rect()
         self.rect.center = (random.randint(40, SCREEN_WIDTH - 40), 0)
+        self.counter = 0
+        self.speed = 5
 
     def move(self):
         global SCORE
-        self.rect.move_ip(0, SPEED)
+        global SPEED
+        self.rect.move_ip(0, self.speed)
         if self.rect.top > 600:
+            self.counter += 1
+            if self.counter >= 75:
+                self.counter = 75
+            elif self.counter % 5 == 0:
+                self.speed += 1
             SCORE += 1
             self.rect.top = 0
             self.rect.center = (random.randint(40, SCREEN_WIDTH - 40), 0)
@@ -88,16 +97,26 @@ class Coins(pygame.sprite.Sprite):
     def __init__(self):
         super().__init__()
 
-        image = pygame.image.load("/Users/uakks/Desktop/coin.png")
-        self.image = pygame.transform.scale(image, (75, 60))
+        self.chance = 0
+        self.coins = [
+            "/Users/uakks/Desktop/Coin.png",
+            "/Users/uakks/Desktop/Star.png"
+        ]
+        self.image = pygame.transform.scale(pygame.image.load(self.coins[0]), (60, 60))
         self.rect = self.image.get_rect()
         self.rect.center = (random.randint(50, SCREEN_WIDTH - 50), 0)
 
     def move(self):
         self.rect.move_ip(0, 5)
         if self.rect.top > SCREEN_HEIGHT:
+            self.change_coin()
             self.rect.top = 0
             self.rect.center = (random.randint(50, SCREEN_WIDTH - 50), 0)
+
+    def change_coin(self):
+        self.chance = numpy.random.choice(numpy.arange(0, 2), p=[0.85, 0.15])
+        print(self.chance)
+        self.image = pygame.transform.scale(pygame.image.load(self.coins[self.chance]), (60, 60))
 
 
 # Setting up Sprites
@@ -115,10 +134,6 @@ all_sprites.add(C1)
 all_sprites.add(P1)
 all_sprites.add(E1)
 
-# Adding a new User event
-INC_SPEED = pygame.USEREVENT + 1
-pygame.time.set_timer(INC_SPEED, 1000)
-
 # Just background music
 pygame.mixer.music.load("/Users/uakks/Desktop/Better Day.mp3")
 pygame.mixer.music.set_volume(1)
@@ -129,8 +144,6 @@ while True:
 
     # Cycles through all events occurring
     for event in pygame.event.get():
-        if event.type == INC_SPEED:
-            SPEED += 0.2
         if event.type == QUIT:
             pygame.quit()
             sys.exit()
@@ -140,7 +153,7 @@ while True:
     scores = font_small.render(str(SCORE), True, BLACK)
     DISPLAYSURF.blit(scores, (10, 10))
     coins = font_small.render(str(COINS), True, YELLOW)
-    DISPLAYSURF.blit(coins, (SCREEN_WIDTH-30, 10))
+    DISPLAYSURF.blit(coins, (SCREEN_WIDTH - 30, 10))
 
     # Moves and Re-draws all Sprites
     for entity in all_sprites:
@@ -150,7 +163,11 @@ while True:
     # Colliding with coins
     if pygame.sprite.spritecollideany(P1, game_coins):
         pygame.mixer.Sound('/Users/uakks/Desktop/Coin Touch.wav').play()
-        COINS += 1
+        if C1.chance == 0:
+            COINS += 1
+        else:
+            COINS += 5
+        C1.change_coin()
         C1.rect.top = 0
         C1.rect.center = (random.randint(50, SCREEN_WIDTH - 50), 0)
         # random_timing = random.randint(0, 10000)
