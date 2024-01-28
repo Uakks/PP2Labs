@@ -25,7 +25,7 @@ YELLOW = (255, 255, 0)
 # Other Variables for use in the program
 SCREEN_WIDTH = 1200
 SCREEN_HEIGHT = 800
-SPEED = 25
+SPEED = 15
 SCORE = 0
 COINS = 0
 
@@ -57,7 +57,6 @@ class Enemy(pygame.sprite.Sprite):
 
     def move(self):
         global SCORE
-        global SPEED
         self.rect.move_ip(0, self.speed)
         if self.rect.top > 600:
             self.counter += 1
@@ -80,17 +79,12 @@ class Player(pygame.sprite.Sprite):
 
     def move(self):
         pressed_keys = pygame.key.get_pressed()
-        # if pressed_keys[K_UP]:
-        # self.rect.move_ip(0, -5)
-        # if pressed_keys[K_DOWN]:
-        # self.rect.move_ip(0,5)
-
         if self.rect.left > 0:
             if pressed_keys[K_LEFT]:
-                self.rect.move_ip(-SPEED - 3, 0)
+                self.rect.move_ip(-SPEED, 0)
         if self.rect.right < SCREEN_WIDTH:
             if pressed_keys[K_RIGHT]:
-                self.rect.move_ip(SPEED + 3, 0)
+                self.rect.move_ip(SPEED, 0)
 
 
 class Coins(pygame.sprite.Sprite):
@@ -104,19 +98,22 @@ class Coins(pygame.sprite.Sprite):
         ]
         self.image = pygame.transform.scale(pygame.image.load(self.coins[0]), (60, 60))
         self.rect = self.image.get_rect()
-        self.rect.center = (random.randint(50, SCREEN_WIDTH - 50), 0)
+        self.randomize()
 
     def move(self):
         self.rect.move_ip(0, 5)
         if self.rect.top > SCREEN_HEIGHT:
             self.change_coin()
-            self.rect.top = 0
-            self.rect.center = (random.randint(50, SCREEN_WIDTH - 50), 0)
+            self.randomize()
 
     def change_coin(self):
         self.chance = numpy.random.choice(numpy.arange(0, 2), p=[0.85, 0.15])
         print(self.chance)
         self.image = pygame.transform.scale(pygame.image.load(self.coins[self.chance]), (60, 60))
+
+    def randomize(self):
+        self.rect.top = 0
+        self.rect.center = (random.randint(50, SCREEN_WIDTH - 50), 0)
 
 
 # Setting up Sprites
@@ -161,6 +158,9 @@ while True:
         entity.move()
 
     # Colliding with coins
+    if pygame.sprite.spritecollideany(E1, game_coins):
+        C1.randomize()
+
     if pygame.sprite.spritecollideany(P1, game_coins):
         pygame.mixer.Sound('/Users/uakks/Desktop/Coin Touch.wav').play()
         if C1.chance == 0:
