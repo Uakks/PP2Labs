@@ -129,7 +129,7 @@ class Snake:
 
     def play_crunch_sound(self):
         self.crunch_sound.play()
-        sound_index = random.randint(0, len(sounds)-1)
+        sound_index = random.randint(0, len(sounds) - 1)
         self.crunch_sound = pygame.mixer.Sound(sounds[sound_index])
 
     def reset(self):
@@ -147,7 +147,8 @@ class Fruit:
         ]
         self.next_chance = 0
         self.randomize()
-        self.image_for_score = pygame.transform.scale(pygame.image.load(self.images[0]).convert_alpha(), (cell_size, cell_size))
+        self.image_for_score = pygame.transform.scale(pygame.image.load(self.images[0]).convert_alpha(),
+                                                      (cell_size, cell_size))
 
     def draw_fruit(self):
         fruit_rect = pygame.Rect(int(self.pos.x * cell_size), int(self.pos.y * cell_size), cell_size, cell_size)
@@ -163,7 +164,7 @@ class Fruit:
         if self.chance == 2:
             pygame.time.set_timer(pygame.USEREVENT + 1, 5000, 1)
         else:
-            pygame.time.set_timer(TIMER_EVENT, 0, 1)
+            pygame.time.set_timer(pygame.USEREVENT + 1, 0, 1)
 
 
 class Main:
@@ -227,9 +228,15 @@ class Main:
             # for row in range(cell_number):
 
     def draw_score(self):
-        # timer = 5000
-        # while timer > 0:
-            # disappearing_message = font_small.render()
+        if self.fruit.chance == 2:
+            start_ticks = pygame.time.get_ticks()
+            while True:
+                seconds = (pygame.time.get_ticks() - start_ticks) / 1000
+                if seconds > 10:
+                    break
+                disappearing_message = font_small.render(f"Remaining time: {seconds}", True, (255, 255, 255))
+                message_surface = disappearing_message.get_rect(center=(cell_size * 3, cell_size * 2))
+                screen.blit(disappearing_message, message_surface)
 
         difficulty_text = str(self.difficulty // 5)
         if self.difficulty / 5 >= 5:
@@ -265,7 +272,7 @@ sounds = [
     "/Users/uakks/Desktop/Crunch Sound.mp3",
     "/Users/uakks/Desktop/carrotnom-92106.mp3"
 ]
-sound_index = random.randint(0, len(sounds)-1)
+sound_index = random.randint(0, len(sounds) - 1)
 
 font = pygame.font.SysFont("Verdana", 48)
 font_small = pygame.font.SysFont("Verdana", 24)
@@ -275,7 +282,9 @@ main_game = Main()
 SCREEN_UPDATE = pygame.USEREVENT
 pygame.time.set_timer(SCREEN_UPDATE, 150)
 
-TIMER_EVENT = pygame.USEREVENT + 1
+FOOD_TIMER = pygame.USEREVENT + 1
+
+timer = 5
 
 while True:
     for event in pygame.event.get():
@@ -283,7 +292,7 @@ while True:
             pygame.quit()
             sys.exit()
 
-        if event.type == TIMER_EVENT:
+        if event.type == FOOD_TIMER:
             main_game.fruit.randomize()
 
         if event.type == SCREEN_UPDATE:
