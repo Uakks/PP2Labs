@@ -1,12 +1,15 @@
+# importing everything
 import numpy
 import pygame
 import sys
 import random
 from pygame.math import Vector2
 
+# name of game
 pygame.display.set_caption("Snake game")
 
 
+# class Snake(Player)
 class Snake:
     def __init__(self):
         self.body = [Vector2(7, 6), Vector2(6, 6), Vector2(5, 6)]
@@ -14,6 +17,7 @@ class Snake:
         self.new_block = False
         self.score = 0
 
+        # all below is just graphics of snake
         self.head_up = pygame.transform.scale(
             pygame.image.load("/Users/uakks/Desktop/snake_graphics/head_top.png").convert_alpha(),
             (cell_size, cell_size))
@@ -59,8 +63,11 @@ class Snake:
         self.body_bl = pygame.transform.scale(
             pygame.image.load("/Users/uakks/Desktop/snake_graphics/bottom_left_turn.png").convert_alpha(),
             (cell_size, cell_size))
+
+        # sound when eating
         self.crunch_sound = pygame.mixer.Sound(sounds[sound_index])
 
+    # drawing snake
     def draw_snake(self):
         self.update_head_graphics()
         self.update_tail_graphics()
@@ -113,6 +120,7 @@ class Snake:
         elif tail_relation == Vector2(-1, 0):
             self.tail = self.tail_left
 
+    # moving snake
     def move_snake(self):
         if self.new_block:
             body_copy = self.body[:]
@@ -124,43 +132,51 @@ class Snake:
             body_copy.insert(0, body_copy[0] + self.direction)
             self.body = body_copy[:]
 
+    # when snake eats something
     def add_block(self):
         self.new_block = True
 
+    # sound effects
     def play_crunch_sound(self):
         self.crunch_sound.play()
         sound_index = random.randint(0, len(sounds) - 1)
         self.crunch_sound = pygame.mixer.Sound(sounds[sound_index])
 
+    # play again
     def reset(self):
         self.body = [Vector2(7, 6), Vector2(6, 6), Vector2(5, 6)]
         self.direction = Vector2(0, 0)
         self.score = 0
 
 
+# Fruit class
 class Fruit:
+    # 3 images for different situations
     def __init__(self):
         self.images = [
             "/Users/uakks/Desktop/snake_graphics/Apple.png",
             "/Users/uakks/Desktop/snake_graphics/Cherry.png",
             "/Users/uakks/Desktop/snake_graphics/Strawberry.png"
         ]
-        self.next_chance = 0
         self.randomize()
         self.image_for_score = pygame.transform.scale(pygame.image.load(self.images[0]).convert_alpha(),
                                                       (cell_size, cell_size))
 
+    # drawing fruit on randomized coordinates
     def draw_fruit(self):
         fruit_rect = pygame.Rect(int(self.pos.x * cell_size), int(self.pos.y * cell_size), cell_size, cell_size)
         loaded = pygame.image.load(self.images[self.chance]).convert_alpha()
         self.used_image = pygame.transform.scale(loaded, (cell_size, cell_size))
         screen.blit(self.used_image, fruit_rect)
 
+    # randomizing coordinates of fruit after collision
     def randomize(self):
         self.x = random.randint(0, cell_number - 1)
         self.y = random.randint(0, cell_number - 1)
         self.pos = Vector2(self.x, self.y)
-        self.chance = numpy.random.choice(numpy.arange(0, 3), p=[0.2, 0.3, 0.5])
+        self.chance = numpy.random.choice(numpy.arange(0, 3), p=[0.6, 0.3, 0.1])
+        self.seconds = 5000
+        # checking for strawberry, which will activate timer for collection
         if self.chance == 2:
             pygame.time.set_timer(pygame.USEREVENT + 1, 5000, 1)
         else:
@@ -173,6 +189,7 @@ class Main:
         self.fruit = Fruit()
         self.difficulty = 0
         self.reset = True
+        self.start_tick = pygame.time.get_ticks()
 
     def update(self):
         self.snake.move_snake()
@@ -228,15 +245,6 @@ class Main:
             # for row in range(cell_number):
 
     def draw_score(self):
-        if self.fruit.chance == 2:
-            start_ticks = pygame.time.get_ticks()
-            while True:
-                seconds = (pygame.time.get_ticks() - start_ticks) / 1000
-                if seconds > 10:
-                    break
-                disappearing_message = font_small.render(f"Remaining time: {seconds}", True, (255, 255, 255))
-                message_surface = disappearing_message.get_rect(center=(cell_size * 3, cell_size * 2))
-                screen.blit(disappearing_message, message_surface)
 
         difficulty_text = str(self.difficulty // 5)
         if self.difficulty / 5 >= 5:
@@ -255,11 +263,21 @@ class Main:
         bg_rect = pygame.Rect(apple_rect.left - 5, apple_rect.top - 5, apple_rect.width + score_rect.width + 10,
                               apple_rect.height + 10)
 
+        disappearing_message = font_small.render(f"Remaining time: {format(main_game.fruit.seconds / 1000, ".2f")}", True,
+                                                 (255, 255, 255))
+        message_surface = disappearing_message.get_rect(center=(cell_size * 6, cell_size * 2))
+
         pygame.draw.rect(screen, (167, 209, 57), bg_rect)
+
+        if self.fruit.chance == 2:
+            main_game.fruit.seconds -= 5000/300
+            screen.blit(disappearing_message, message_surface)
+
         screen.blit(difficulty_surface, difficulty_rect)
         screen.blit(score_surface, score_rect)
         screen.blit(self.fruit.image_for_score, apple_rect)
         pygame.draw.rect(screen, (50, 51, 52), bg_rect, 2)
+        cnt = 0
 
 
 pygame.init()
