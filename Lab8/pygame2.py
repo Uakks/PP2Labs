@@ -227,9 +227,9 @@ class Main:
             # for row in range(cell_number):
 
     def draw_score(self):
-        timer = 5000
+        # timer = 5000
         # while timer > 0:
-        #     disappearing_message = font_small.render()
+            # disappearing_message = font_small.render()
 
         difficulty_text = str(self.difficulty // 5)
         if self.difficulty / 5 >= 5:
