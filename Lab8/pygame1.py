@@ -22,7 +22,7 @@ BLACK = (0, 0, 0)
 WHITE = (255, 255, 255)
 YELLOW = (255, 255, 0)
 
-# Other Variables for use in the program
+# Other Variables for use in the program, defaults
 SCREEN_WIDTH = 1200
 SCREEN_HEIGHT = 800
 SPEED = 15
@@ -38,15 +38,16 @@ game_over = font.render("Game Over", True, BLACK)
 back = pygame.image.load("/Users/uakks/Desktop/screenshots/Road_back.png")
 background = pygame.transform.scale(back, (SCREEN_WIDTH, SCREEN_HEIGHT))
 
-# Create a white screen
-DISPLAYSURF = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
-DISPLAYSURF.fill(WHITE)
+# Create a white screen, name it
+screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
+screen.fill(WHITE)
 pygame.display.set_caption("Race")
 
 
 # Classes
 class Enemy(pygame.sprite.Sprite):
     def __init__(self):
+        # setting up the params for enemy cars
         super().__init__()
         image = pygame.image.load("/Users/uakks/Desktop/Black_car.png")
         self.image = pygame.transform.scale(image, (80, 177))
@@ -55,6 +56,7 @@ class Enemy(pygame.sprite.Sprite):
         self.counter = 0
         self.speed = 5
 
+    # moving enemy cars with defined speed and resetting after they hit bottom of the screen
     def move(self):
         global SCORE
         self.rect.move_ip(0, self.speed)
@@ -70,6 +72,7 @@ class Enemy(pygame.sprite.Sprite):
 
 
 class Player(pygame.sprite.Sprite):
+    # defining player parameters
     def __init__(self):
         super().__init__()
         image = pygame.image.load("/Users/uakks/Desktop/Red_car.png")
@@ -77,6 +80,7 @@ class Player(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.rect.center = (SCREEN_WIDTH / 2, SCREEN_HEIGHT - 90)
 
+    # moving players car with constant speed
     def move(self):
         pressed_keys = pygame.key.get_pressed()
         if self.rect.left > 0:
@@ -88,9 +92,9 @@ class Player(pygame.sprite.Sprite):
 
 
 class Coins(pygame.sprite.Sprite):
+    # defining coins, that will appear as extra element
     def __init__(self):
         super().__init__()
-
         self.chance = 0
         self.coins = [
             "/Users/uakks/Desktop/Coin.png",
@@ -101,17 +105,20 @@ class Coins(pygame.sprite.Sprite):
         self.randomize()
 
     def move(self):
+        # moving coins down the screen until they hit ground
         self.rect.move_ip(0, 5)
         if self.rect.top > SCREEN_HEIGHT:
             self.change_coin()
             self.randomize()
 
     def change_coin(self):
+        # creating chance of getting more valuable coin, updating image also
         self.chance = numpy.random.choice(numpy.arange(0, 2), p=[0.85, 0.15])
         print(self.chance)
         self.image = pygame.transform.scale(pygame.image.load(self.coins[self.chance]), (60, 60))
 
     def randomize(self):
+        # randomizing next coin drops position
         self.rect.top = 0
         self.rect.center = (random.randint(50, SCREEN_WIDTH - 50), 0)
 
@@ -146,21 +153,23 @@ while True:
             sys.exit()
 
     # Show score and coins
-    DISPLAYSURF.blit(background, (0, 0))
+    screen.blit(background, (0, 0))
     scores = font_small.render(str(SCORE), True, BLACK)
-    DISPLAYSURF.blit(scores, (10, 10))
+    screen.blit(scores, (10, 10))
     coins = font_small.render(str(COINS), True, YELLOW)
-    DISPLAYSURF.blit(coins, (SCREEN_WIDTH - 30, 10))
+    screen.blit(coins, (SCREEN_WIDTH - 30, 10))
 
     # Moves and Re-draws all Sprites
     for entity in all_sprites:
-        DISPLAYSURF.blit(entity.image, entity.rect)
+        screen.blit(entity.image, entity.rect)
         entity.move()
 
-    # Colliding with coins
+    # Checking for collision of enemy cars and coins to make sure that coins are collectable
     if pygame.sprite.spritecollideany(E1, game_coins):
         C1.randomize()
 
+    # checking for collision between player and coins,
+    # to count total score of coins and resetting coins to drop from above
     if pygame.sprite.spritecollideany(P1, game_coins):
         pygame.mixer.Sound('/Users/uakks/Desktop/Coin Touch.wav').play()
         if C1.chance == 0:
@@ -178,13 +187,15 @@ while True:
         pygame.mixer.Sound('/Users/uakks/Desktop/Accident Sound.wav').play()
         time.sleep(0.5)
 
+        # showing texts on endgame screen
         collected_coins = font_small.render(f"Collected coins: {COINS}", True, BLACK)
         final_score = font_small.render(f"Score: {SCORE}", True, BLACK)
-        DISPLAYSURF.fill(RED)
-        DISPLAYSURF.blit(game_over, (SCREEN_WIDTH / 2 - 130, SCREEN_HEIGHT / 2 - 30))
-        DISPLAYSURF.blit(final_score, (SCREEN_WIDTH / 2 - 130, SCREEN_HEIGHT / 2 + 30))
-        DISPLAYSURF.blit(collected_coins, (SCREEN_WIDTH / 2 - 130, SCREEN_HEIGHT / 2 + 50))
+        screen.fill(RED)
+        screen.blit(game_over, (SCREEN_WIDTH / 2 - 130, SCREEN_HEIGHT / 2 - 30))
+        screen.blit(final_score, (SCREEN_WIDTH / 2 - 130, SCREEN_HEIGHT / 2 + 30))
+        screen.blit(collected_coins, (SCREEN_WIDTH / 2 - 130, SCREEN_HEIGHT / 2 + 50))
 
+        # deleting elements from all_sprites and quitting pygame
         pygame.display.update()
         for entity in all_sprites:
             entity.kill()
