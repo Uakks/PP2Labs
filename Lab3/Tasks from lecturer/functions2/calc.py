@@ -10,7 +10,7 @@ def calculate_running_average(*args):
     return lst
 
 
-print(calculate_running_average(1, 2, 3, 6))
+print(calculate_running_average(1, 2, 3, 4, 5, 6, 7, 10, 16, 45))
 
 
 
