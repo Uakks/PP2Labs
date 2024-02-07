@@ -355,8 +355,8 @@ class Main:
         self.draw_grass()
         self.snake.draw_snake()
         self.fruit.draw_fruit()
-        self.draw_score()
         self.obstacles.draw_obstacle()
+        self.draw_score()
 
     # checking for collision
     def check_collision(self):
@@ -429,7 +429,7 @@ class Main:
             next_level_text = font_small.render("You can pass to the next level, press N", True, (255, 255, 255))
 
         next_level_text_rect = next_level_text.get_rect(center=(screen.get_width() - 240, 30))
-        if self.snake.score > 10:
+        if self.snake.score > 50:
             screen.blit(next_level_text, next_level_text_rect)
 
         # first create difficulty text and level
@@ -554,7 +554,7 @@ while True:
 
         # changing direction according to arrow buttons
         if event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_n and main_game.snake.score > 1:
+            if event.key == pygame.K_n and main_game.snake.score > 50:
                 main_game.obstacles.current_level += 1
                 if main_game.obstacles.current_level == 10:
                     screen.fill((255, 255, 255))
