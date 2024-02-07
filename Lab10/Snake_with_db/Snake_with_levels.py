@@ -482,8 +482,8 @@ clock = pygame.time.Clock()
 
 # used sounds
 sounds = [
-    "/Users/uakks/Desktop/Crunch Sound.mp3",
-    "/Users/uakks/Desktop/carrotnom-92106.mp3"
+    "assets/sounds/Crunch Sound.mp3",
+    "assets/sounds/carrotnom-92106.mp3"
 ]
 sound_index = random.randint(0, len(sounds) - 1)
 
