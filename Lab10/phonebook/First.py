@@ -51,6 +51,8 @@ name VARCHAR(255)
 );
 """)
 
+
+
 # insert_user()
 
 # change_name()

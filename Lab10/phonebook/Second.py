@@ -13,7 +13,7 @@ name VARCHAR(255)
 );
 """)
 
-path = "/Users/uakks/Documents/Book1.csv"
+path = "Book1.csv"
 with open(path) as csvfile:
     for line in csvfile:
         lst = line.strip().split(";")
