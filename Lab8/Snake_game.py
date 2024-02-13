@@ -17,49 +17,49 @@ class Snake:
 
         # all below is just graphics of snake, head, tail to every direction, turning positions and straight body
         self.head_up = pygame.transform.scale(
-            pygame.image.load("/Users/uakks/Desktop/snake_graphics/head_top.png").convert_alpha(),
+            pygame.image.load("assets/snake_graphics/head_top.png").convert_alpha(),
             (cell_size, cell_size))
         self.head_down = pygame.transform.scale(
-            pygame.image.load("/Users/uakks/Desktop/snake_graphics/head_bottom.png").convert_alpha(),
+            pygame.image.load("assets/snake_graphics/head_bottom.png").convert_alpha(),
             (cell_size, cell_size))
         self.head_left = pygame.transform.scale(
-            pygame.image.load("/Users/uakks/Desktop/snake_graphics/head_left.png").convert_alpha(),
+            pygame.image.load("assets/snake_graphics/head_left.png").convert_alpha(),
             (cell_size, cell_size))
         self.head_right = pygame.transform.scale(
-            pygame.image.load("/Users/uakks/Desktop/snake_graphics/head_right.png").convert_alpha(),
+            pygame.image.load("assets/snake_graphics/head_right.png").convert_alpha(),
             (cell_size, cell_size))
 
         self.tail_up = pygame.transform.scale(
-            pygame.image.load("/Users/uakks/Desktop/snake_graphics/tail_top.png").convert_alpha(),
+            pygame.image.load("assets/snake_graphics/tail_top.png").convert_alpha(),
             (cell_size, cell_size))
         self.tail_down = pygame.transform.scale(
-            pygame.image.load("/Users/uakks/Desktop/snake_graphics/tail_bottom.png").convert_alpha(),
+            pygame.image.load("assets/snake_graphics/tail_bottom.png").convert_alpha(),
             (cell_size, cell_size))
         self.tail_left = pygame.transform.scale(
-            pygame.image.load("/Users/uakks/Desktop/snake_graphics/tail_left.png").convert_alpha(),
+            pygame.image.load("assets/snake_graphics/tail_left.png").convert_alpha(),
             (cell_size, cell_size))
         self.tail_right = pygame.transform.scale(
-            pygame.image.load("/Users/uakks/Desktop/snake_graphics/tail_right.png").convert_alpha(),
+            pygame.image.load("assets/snake_graphics/tail_right.png").convert_alpha(),
             (cell_size, cell_size))
 
         self.body_vertical = pygame.transform.scale(
-            pygame.image.load("/Users/uakks/Desktop/snake_graphics/vertical.png").convert_alpha(),
+            pygame.image.load("assets/snake_graphics/vertical.png").convert_alpha(),
             (cell_size, cell_size))
         self.body_horizontal = pygame.transform.scale(
-            pygame.image.load("/Users/uakks/Desktop/snake_graphics/horizontal.png").convert_alpha(),
+            pygame.image.load("assets/snake_graphics/horizontal.png").convert_alpha(),
             (cell_size, cell_size))
 
         self.body_tr = pygame.transform.scale(
-            pygame.image.load("/Users/uakks/Desktop/snake_graphics/top_right_turn.png").convert_alpha(),
+            pygame.image.load("assets/snake_graphics/top_right_turn.png").convert_alpha(),
             (cell_size, cell_size))
         self.body_tl = pygame.transform.scale(
-            pygame.image.load("/Users/uakks/Desktop/snake_graphics/top_left_turn.png").convert_alpha(),
+            pygame.image.load("assets/snake_graphics/top_left_turn.png").convert_alpha(),
             (cell_size, cell_size))
         self.body_br = pygame.transform.scale(
-            pygame.image.load("/Users/uakks/Desktop/snake_graphics/bottom_right_turn.png").convert_alpha(),
+            pygame.image.load("assets/snake_graphics/bottom_right_turn.png").convert_alpha(),
             (cell_size, cell_size))
         self.body_bl = pygame.transform.scale(
-            pygame.image.load("/Users/uakks/Desktop/snake_graphics/bottom_left_turn.png").convert_alpha(),
+            pygame.image.load("assets/snake_graphics/bottom_left_turn.png").convert_alpha(),
             (cell_size, cell_size))
 
         # current sound when eating food
@@ -166,9 +166,9 @@ class Fruit:
     def __init__(self):
         # defining possible fruits, position and score image
         self.images = [
-            "/Users/uakks/Desktop/snake_graphics/Apple.png",
-            "/Users/uakks/Desktop/snake_graphics/Cherry.png",
-            "/Users/uakks/Desktop/snake_graphics/Strawberry.png"
+            "assets/snake_graphics/Apple.png",
+            "assets/snake_graphics/Cherry.png",
+            "assets/snake_graphics/Strawberry.png"
         ]
         self.randomize()
         self.image_for_score = pygame.transform.scale(pygame.image.load(self.images[0]).convert_alpha(),
@@ -323,8 +323,8 @@ clock = pygame.time.Clock()
 
 # used sounds
 sounds = [
-    "/Users/uakks/Desktop/Crunch Sound.mp3",
-    "/Users/uakks/Desktop/carrotnom-92106.mp3"
+    "assets/sounds/Crunch Sound.mp3",
+    "assets/sounds/carrotnom-92106.mp3"
 ]
 sound_index = random.randint(0, len(sounds) - 1)
 
