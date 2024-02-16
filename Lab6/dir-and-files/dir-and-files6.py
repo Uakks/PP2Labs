@@ -1,13 +1,18 @@
 import os
 
 
-def create_files(path):
+def create_files(path, n):
     os.chdir(path)
-    for letter in "ABCDEFGHIJKLMNOPQRSTUVWXYZ":
+    letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+    for letter in letters:
+        if letter == n:
+            f = open(f"{letter}.txt", "x", encoding="utf-8")
+            break
         f = open(f"{letter}.txt", "x", encoding="utf-8")
 
     print("Files created")
 
 
-path = "/Users/uakks/Desktop/junk"
-create_files(path)
+num = input("Enter last letter to be created: ")
+path1 = "/Users/uakks/Desktop/ICPC/Number Theory"
+create_files(path1, num)
