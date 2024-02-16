@@ -35,7 +35,7 @@ font_small = pygame.font.SysFont("Verdana", 20)
 game_over = font.render("Game Over", True, BLACK)
 
 # background image
-back = pygame.image.load("/Users/uakks/Desktop/screenshots/Road_back.png")
+back = pygame.image.load("assets/car_game_assets/images/Road_back.png")
 background = pygame.transform.scale(back, (SCREEN_WIDTH, SCREEN_HEIGHT))
 
 # Create a white screen, name it
@@ -49,7 +49,7 @@ class Enemy(pygame.sprite.Sprite):
     def __init__(self):
         # setting up the params for enemy cars
         super().__init__()
-        image = pygame.image.load("/Users/uakks/Desktop/Black_car.png")
+        image = pygame.image.load("assets/car_game_assets/images/Black_car.png")
         self.image = pygame.transform.scale(image, (80, 177))
         self.rect = self.image.get_rect()
         self.rect.center = (random.randint(40, SCREEN_WIDTH - 40), 0)
@@ -75,7 +75,7 @@ class Player(pygame.sprite.Sprite):
     # defining player parameters
     def __init__(self):
         super().__init__()
-        image = pygame.image.load("/Users/uakks/Desktop/Red_car.png")
+        image = pygame.image.load("assets/car_game_assets/images/Red_car.png")
         self.image = pygame.transform.scale(image, (80, 177))
         self.rect = self.image.get_rect()
         self.rect.center = (SCREEN_WIDTH / 2, SCREEN_HEIGHT - 90)
@@ -97,8 +97,8 @@ class Coins(pygame.sprite.Sprite):
         super().__init__()
         self.chance = 0
         self.coins = [
-            "/Users/uakks/Desktop/Coin.png",
-            "/Users/uakks/Desktop/Star.png"
+            "assets/car_game_assets/images/Coin.png",
+            "assets/car_game_assets/images/Star.png"
         ]
         self.image = pygame.transform.scale(pygame.image.load(self.coins[0]), (60, 60))
         self.rect = self.image.get_rect()
@@ -139,7 +139,7 @@ all_sprites.add(P1)
 all_sprites.add(E1)
 
 # Just background music
-pygame.mixer.music.load("/Users/uakks/Desktop/Better Day.mp3")
+pygame.mixer.music.load("assets/car_game_assets/audios/Better Day.mp3")
 pygame.mixer.music.set_volume(1)
 pygame.mixer.music.play(-1)
 
@@ -171,7 +171,7 @@ while True:
     # checking for collision between player and coins,
     # to count total score of coins and resetting coins to drop from above
     if pygame.sprite.spritecollideany(P1, game_coins):
-        pygame.mixer.Sound('/Users/uakks/Desktop/Coin Touch.wav').play()
+        pygame.mixer.Sound('assets/car_game_assets/audios/Coin Touch.wav').play()
         if C1.chance == 0:
             COINS += 1
         else:
@@ -184,7 +184,7 @@ while True:
     # To be run if collision occurs between Player and Enemy
     if pygame.sprite.spritecollideany(P1, enemies):
         pygame.mixer.music.stop()
-        pygame.mixer.Sound('/Users/uakks/Desktop/Accident Sound.wav').play()
+        pygame.mixer.Sound('assets/car_game_assets/audios/Accident Sound.wav').play()
         time.sleep(0.5)
 
         # showing texts on endgame screen
