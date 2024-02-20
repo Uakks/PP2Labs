@@ -1,10 +1,8 @@
 import re
 
-file = open("Lab5 row (1).txt")
-list_file = file.readlines()
+list_file = open("Lab5 row (1).txt").readlines()
 
 
-# string = input("Enter a word: ")
 # 1
 def ab():
     for word in list_file:
