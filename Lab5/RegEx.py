@@ -1,47 +1,110 @@
 import re
 
-string = input("Enter a word: ")
+file = open("Lab5 row (1).txt")
+list_file = file.readlines()
+
+
+# string = input("Enter a word: ")
 # 1
-print(re.findall("ab*", string))
+def ab():
+    for word in list_file:
+        if len(re.findall("ab*", word)) != 0:
+            print(word, " -> ", end="")
+            print(re.findall("ab*", word))
+
 
 # 2
-print(re.findall("ab?b{2}", string))
+def abbb():
+    for word in list_file:
+        if len(re.findall("ab?b{2}", word)) != 0:
+            print(word, " -> ", end="")
+            print(re.findall("ab?b{2}", word))
+
 
 # 3
-print(re.findall("[a-z]*_+", string))
+def lower_():
+    for word in list_file:
+        if len(re.findall("[a-z]*_+", word)) != 0:
+            print(word, " -> ", end="")
+            print(re.findall("[a-z]*_+", word))
+
 
 # 4
-print(re.findall("[A-Z]{1}[a-z]*", string))
+def upper_lower():
+    for word in list_file:
+        if len(re.findall("[A-Z]{1}[a-z]*", word)) != 0:
+            print(word, " -> ", end="")
+            print(re.findall("[A-Z]{1}[a-z]*", word))
+
 
 # 5
-print(re.findall("a.*b", string))
+def from_a_to_b():
+    for word in list_file:
+        if len(re.findall("a.*b", word)) != 0:
+            print(word, " -> ", end="")
+            print(re.findall("a.*b", word))
+
 
 # 6
-print(re.sub("[ ,.]", ":", string))
+def replace():
+    for word in list_file:
+        if len(re.findall("[ ,.]", word)) != 0:
+            print(word, " -> ", end="")
+            print(re.sub("[ ,.]", ":", word))
+
 
 # 7
-print(re.sub("_", " ", string).title().replace(" ", ""))
+def snake_to_camel_case():
+    for word in list_file:
+        if len(re.findall("_", word)) != 0:
+            print(word, " -> ", end="")
+            print(re.sub("_", " ", word).title().replace(" ", ""))
+
 
 # 8
-print(re.split("[A-Z]", string))
+def split_at_upper():
+    for word in list_file:
+        if len(re.findall("[A-Z]", word)) != 0:
+            print(word, " -> ", end="")
+            print(re.split("[A-Z]", word))
+
 
 # 9
-lst = re.findall("[A-Z][^A-Z]*", string)
-txt = ""
-for word in lst:
-    txt += (word + " ")
+def insert_spaces():
+    for word in list_file:
+        if len(re.findall("ab*", word)) != 0:
+            print(word, " -> ", end="")
+            lst = re.findall("[A-Z][^A-Z]*", word)
+            txt = ""
+            for word1 in lst:
+                txt += (word1 + " ")
 
-print(txt)
+            print(txt)
+
 
 # 10
-string = string[0].upper() + string[1:]
-lst = re.findall("[A-Z][^A-Z]*", string)
-txt = ""
-for i in range(len(lst)):
-    if i != len(lst) - 1:
-        txt += lst[i].lower() + "_"
-    else:
-        txt += lst[i].lower()
+def camel_to_snake_case():
+    for word in list_file:
+        if len(re.findall("ab*", word)) != 0:
+            print(word, " -> ", end="")
+            lst = re.findall("[A-Z][^A-Z]*", word)
+            txt = ""
+            for i in range(len(lst)):
+                if i != len(lst) - 1:
+                    txt += lst[i].lower() + "_"
+                else:
+                    txt += lst[i].lower()
+
+            print(txt)
 
 
-print(txt)
+# ab()
+# abbb()
+# lower_()
+# upper_lower()
+# from_a_to_b()
+# replace()
+# snake_to_camel_case()
+# split_at_upper()
+# insert_spaces()
+# camel_to_snake_case()
