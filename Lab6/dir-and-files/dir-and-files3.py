@@ -9,5 +9,5 @@ def spec_path(path):
         print("The path does not exist")
 
 
-specified_path = "/Users/uakks/Desktop"
+specified_path = "/Users/uakks/Desktop/Solution/main.cpp"
 spec_path(specified_path)

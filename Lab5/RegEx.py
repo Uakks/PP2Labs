@@ -106,3 +106,13 @@ def camel_to_snake_case():
 # split_at_upper()
 # insert_spaces()
 # camel_to_snake_case()
+
+def exists(email):
+    if len(re.findall("[a-zA-Z1-9]+@mail[.]ru$", email)) != 0 or len(re.findall("[a-zA-Z1-9]+@gmail[.]com$", email)) != 0:
+        print("Email is correct")
+    else:
+        print("Email is not correct")
+
+
+mail = input("Enter your email address: ")
+exists(mail)

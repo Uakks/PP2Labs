@@ -10,4 +10,4 @@ def write_to_file(filename, lst):
 
 # 5 it works
 list1 = ["Hello", "World"]
-write_to_file('/Users/uakks/Downloads/Lab5 row.txt', list1)
+write_to_file('/Users/uakks/Desktop/junk/B.txt', list1)

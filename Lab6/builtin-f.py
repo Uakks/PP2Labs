@@ -35,7 +35,8 @@ print(uppers_and_lowers(word))
 
 # 3
 word1 = input("Word: ")
-print(word1 == word1[::-1])
+# print(word1 == word1[::-1])
+print(reversed(word1))
 
 # 4
 num = int(input("Sample input: "))
